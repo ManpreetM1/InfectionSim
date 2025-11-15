@@ -1,1 +1,1 @@
-# InfectionSim
+# InfectionSim - CPSC 571
