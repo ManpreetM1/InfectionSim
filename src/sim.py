@@ -9,7 +9,7 @@ from matplotlib.animation import FuncAnimation
 # -------------------------
 N_AGENTS = 150
 WIDTH, HEIGHT = 800, 600          # Used only for movement, no pygame needed
-INFECTION_RADIUS = 10
+INFECTION_RADIUS = 50
 INFECTION_PROB = 0.12
 RECOVERY_TIME = 50                # steps until recovery
 STEPS = 300                       # total number of frames
@@ -28,6 +28,7 @@ agents = pd.DataFrame({
 
 # Seed initial infection
 agents.loc[0, "state"] = "I"
+agents.loc[5, "state"] = "I"
 
 sir_log = []   # will store S, I, R values over time
 
@@ -62,10 +63,22 @@ def update_agents():
 # Matplotlib Bar Graph
 # -------------------------
 fig, ax = plt.subplots()
-bars = ax.bar(["S", "I", "R"], [0, 0, 0], color=["#3399ff", "#ff4444", "#44cc88"])
+
+x=[]
+S_vals=[]
+I_vals=[]
+R_vals=[]
+
+line_S, = ax.plot([], [], color="#1100ff", marker='o', label="S")
+line_I, = ax.plot([], [], color="#ff0000", marker='x', label="I")
+line_R, = ax.plot([], [], color="#00ff0d", marker='o', label="R")
+
+#bars = ax.bar(["S", "I", "R"], [0, 0, 0], color=["#3399ff", "#ff4444", "#44cc88"])
+ax.set_xlim(0, STEPS)
 ax.set_ylim(0, N_AGENTS)
 ax.set_title("SIR Simulation (Pandas + Matplotlib)")
 ax.set_ylabel("Population Count")
+ax.legend()
 
 def animate(frame):
     update_agents()
@@ -77,17 +90,27 @@ def animate(frame):
 
     sir_log.append([frame, S, I, R])
 
-    # Update bars
-    bars[0].set_height(S)
-    bars[1].set_height(I)
-    bars[2].set_height(R)
+    # Update plots
+    x.append(frame)
+    S_vals.append(S)
+    I_vals.append(I)
+    R_vals.append(R)
+
+    line_S.set_xdata(x)
+    line_I.set_xdata(x)
+    line_R.set_xdata(x)
+
+    line_S.set_ydata(S_vals)
+    line_I.set_ydata(I_vals)
+    line_R.set_ydata(R_vals)
+
 
     ax.set_title(f"SIR Simulation — Step {frame}")
 
-    return bars
+    return line_S, line_I, line_R
 
 # Run animation
-anim = FuncAnimation(fig, animate, frames=STEPS, interval=60, repeat=False)
+anim = FuncAnimation(fig, animate, frames=range(0, STEPS, 10), interval=560, repeat=False)
 plt.show()
 
 # Save SIR results
