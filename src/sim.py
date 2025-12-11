@@ -10,7 +10,7 @@ from matplotlib.animation import FuncAnimation
 N_AGENTS = 150
 WIDTH, HEIGHT = 800, 600          # Used only for movement, no pygame needed
 INFECTION_RADIUS = 50
-INFECTION_PROB = 0.12
+INFECTION_PROB = 0.9              # Based on the 3 least dense populated states (Alaska, Wyoming, Montana)
 RECOVERY_TIME = 50                # steps until recovery
 STEPS = 300                       # total number of frames
 
