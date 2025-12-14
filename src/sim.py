@@ -11,8 +11,9 @@ N_AGENTS = 150
 WIDTH, HEIGHT = 800, 600          # Used only for movement, no pygame needed
 INFECTION_RADIUS = 50
 INFECTION_PROB = 0.9              # Based on the 3 least dense populated states (Alaska, Wyoming, Montana)
-RECOVERY_TIME = 50                # steps until recovery
+RECOVERY_TIME = 30                # steps until recovery
 STEPS = 300                       # total number of frames
+INITIAL_INFECTION_PROB = 0.025
 
 # -------------------------
 # Agent setup
@@ -26,9 +27,11 @@ agents = pd.DataFrame({
     "time_infected": [0] * N_AGENTS,
 })
 
+initial_infection_agents = agents.index.to_series().sample(frac = INITIAL_INFECTION_PROB,replace = False)
+infection_mask = agents.index.isin(initial_infection_agents)
+
 # Seed initial infection
-agents.loc[0, "state"] = "I"
-agents.loc[5, "state"] = "I"
+agents.loc[infection_mask, "state"] = "I"
 
 sir_log = []   # will store S, I, R values over time
 
@@ -78,6 +81,7 @@ ax.set_xlim(0, STEPS)
 ax.set_ylim(0, N_AGENTS)
 ax.set_title("SIR Simulation (Pandas + Matplotlib)")
 ax.set_ylabel("Population Count")
+ax.set_xlabel("Time Steps")
 ax.legend()
 
 def animate(frame):
@@ -110,7 +114,7 @@ def animate(frame):
     return line_S, line_I, line_R
 
 # Run animation
-anim = FuncAnimation(fig, animate, frames=range(0, STEPS, 10), interval=560, repeat=False)
+anim = FuncAnimation(fig, animate, frames=range(0, STEPS, 5), interval=300, repeat=False)
 plt.show()
 
 # Save SIR results
