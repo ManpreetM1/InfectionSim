@@ -8,7 +8,7 @@ from matplotlib.animation import FuncAnimation
 N_AGENTS = 250                  # Number of simulated agents
 MAXWIDTH,MAXHEIGHT = 800, 600   # Maximum dimensions of simulation area
 BASE_INFECTION_RADIUS = 20      # Base radius where infection is possible between susceptible and infected agent
-BASE_INFECTION_PROB = 0.9       # Base infection probability when in contact, based on the 3 least dense populated states (Alaska, Wyoming, Montana)
+BASE_INFECTION_PROB = 0.09      # Base infection probability when in contact, based on the 3 least dense populated states (Alaska, Wyoming, Montana)
 RECOVERY_TIME = 100             # Time steps until recovery
 STEPS = 305                     # Total number of time steps simulated
 SIM_INTERVAL = 5                # The interval at which the simulation generates values
@@ -22,8 +22,8 @@ infection_radius = BASE_INFECTION_RADIUS        # Current infection radius, inia
 
 
 # Intervention variables (Change these to change the simulation)
-vaccination = False
-isolation = False
+vaccination = True
+isolation = True
 
 vaccine_infection_prob = 0.1 * BASE_INFECTION_PROB   # Infection probability under vaccine scenario, approximately 90% reduction (simpleified since vaccine rollout takes time and is not consistent across population)
 isolation_infection_radius = 0.3 * BASE_INFECTION_RADIUS # Infection radius under isolation scenario, approximately 70% reduction
