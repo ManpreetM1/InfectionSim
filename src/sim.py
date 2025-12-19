@@ -135,7 +135,7 @@ def update_agents():
                     if(s.is_in(inf["x"], inf["y"]) and s.is_in(sus["x"], sus["y"])):
                         infect_risk = shopping_infection_prob
                         # print(f"shopping infect risk: {infect_risk}")
-                        print(f"{inf['x']}, {inf['y']} and {sus['x']}, {sus['y']} infected at shopping centre:{s.x}, {s.y} ")
+                        # print(f"{inf['x']}, {inf['y']} and {sus['x']}, {sus['y']} infected at shopping centre:{s.x}, {s.y} ")
                     else:
                         infect_risk = infection_prob
                         if random.random() < infect_risk:
